@@ -54,86 +54,101 @@ namespace Busines.Concrete
 
         public async Task<bool> DeleteAsync(int id)
         {
-         return await _userDal.DeleteAsync(id);
+            var response = await _userDal.GetAsync(x => x.Id == id);
+            if (response != null)
+            {
+                return await _userDal.DeleteAsync(id);
+            }
+            return false;
         }
 
         public async Task<UserDto> GetByIdAsync(int id)
         {
             var response = await _userDal.GetAsync(x=>x.Id==id);
-            UserDto user = new UserDto()
+            if (response != null)
             {
-                Id = id,
-                LastName = response.LastName,
-                FirstName = response.FirstName,
-                Email = response.Email,
-                Address = response.Address,
-                Gender = response.Gender,
-                DateOfBirth = response.DateOfBirth,
-                UserName = response.UserName,
-            };
-            return user;
-
+                UserDto user = new UserDto()
+                {
+                    Id = id,
+                    LastName = response.LastName,
+                    FirstName = response.FirstName,
+                    Email = response.Email,
+                    Address = response.Address,
+                    Gender = response.Gender,
+                    DateOfBirth = response.DateOfBirth,
+                    UserName = response.UserName,
+                };
+                return user;
+            }
+            return null;
         }
 
         public async Task<IEnumerable<UserDetailDto>> GetListAsync()
         {
-         List<UserDetailDto> list = new List<UserDetailDto>();
-            var response=await _userDal.GetListAsync();
-
-            foreach (var item in response.ToList())
+            List<UserDetailDto> list = new List<UserDetailDto>();
+            var response = await _userDal.GetListAsync();
+            if (response != null)
             {
-                list.Add(new UserDetailDto()
+                foreach (var item in response.ToList())
                 {
-                    FirstName= item.FirstName,
-                    LastName= item.LastName,
-                    Gender=item.Gender==true?"Erkek":"Kadın",
-                    DateOfBirth=item.DateOfBirth,
-                    UserName=item.UserName,
-                    Address=item.Address,
-                    Email =item.Email,
-                    Id=item.Id,
-                
-                });
-            }
+                    list.Add(new UserDetailDto()
+                    {
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        Gender = item.Gender == true ? "Erkek" : "Kadın",
+                        DateOfBirth = item.DateOfBirth,
+                        UserName = item.UserName,
+                        Address = item.Address,
+                        Email = item.Email,
+                        Id = item.Id,
+
+                    });
+                }
                 return list;
+            }
+            return null;
         }
 
         public async Task<UserUpdateDto> UpdateAsync(UserUpdateDto userUpdateDto)
         {
             var getUser=await _userDal.GetAsync(x=>x.Id==userUpdateDto.Id);
-            User user = new()
+            if (getUser != null)
             {
-                FirstName= userUpdateDto.FirstName,
-                LastName=userUpdateDto.LastName,
-                Password=userUpdateDto.Password,
-                Email=userUpdateDto.Email,
-                Address=userUpdateDto.Address,
-               UserName=userUpdateDto.UserName,
-               Id=userUpdateDto.Id,
-               CreatedDate=getUser.CreatedDate,
-               CreatedUserId=getUser.CreatedUserId,
-               DateOfBirth=getUser.DateOfBirth,
-               Gender=userUpdateDto.Gender,
-               UpdateDate=DateTime.Now,
-               UpdateUserId=1,
-            };
+                User user = new()
+                {
+                    FirstName = userUpdateDto.FirstName,
+                    LastName = userUpdateDto.LastName,
+                    Password = userUpdateDto.Password,
+                    Email = userUpdateDto.Email,
+                    Address = userUpdateDto.Address,
+                    UserName = userUpdateDto.UserName,
+                    Id = userUpdateDto.Id,
+                    CreatedDate = getUser.CreatedDate,
+                    CreatedUserId = getUser.CreatedUserId,
+                    DateOfBirth = getUser.DateOfBirth,
+                    Gender = userUpdateDto.Gender,
+                    UpdateDate = DateTime.Now,
+                    UpdateUserId = 1,
+                };
 
-            var userUpdate = await _userDal.UpdateAsync(user);
-            UserUpdateDto newUserupdate = new()
-            {
+                var userUpdate = await _userDal.UpdateAsync(user);
+                UserUpdateDto newUserupdate = new()
+                {
 
-                FirstName = userUpdate.FirstName,
-                LastName = userUpdate.LastName,
-                Password = userUpdate.Password,
-                Email = userUpdate.Email,
-                Address = userUpdate.Address,
-                UserName = userUpdate.UserName,
-                Id = userUpdate.Id,
-             
-                DateOfBirth = userUpdate.DateOfBirth,
-                Gender = userUpdate.Gender,
-              
-            };
-            return newUserupdate;
+                    FirstName = userUpdate.FirstName,
+                    LastName = userUpdate.LastName,
+                    Password = userUpdate.Password,
+                    Email = userUpdate.Email,
+                    Address = userUpdate.Address,
+                    UserName = userUpdate.UserName,
+                    Id = userUpdate.Id,
+
+                    DateOfBirth = userUpdate.DateOfBirth,
+                    Gender = userUpdate.Gender,
+
+                };
+                return newUserupdate;
+            }
+            return null;
         }
     } }
