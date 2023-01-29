@@ -19,8 +19,7 @@ namespace DataAccess.Concrete.EntityFramework.Mapping
 
            builder.Property(t=>t.UserName)
                 .HasColumnName("UserName")
-                .HasMaxLength(50)
-                .IsRequired();
+                .HasMaxLength(50);
             
            builder.Property(t=>t.FirstName)
                 .HasColumnName("FirsName")

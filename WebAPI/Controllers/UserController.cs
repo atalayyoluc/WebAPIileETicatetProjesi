@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
 
         [HttpGet]
         [Route("[action]/{id:int}")]
-        public async Task<IActionResult> GetList(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var result = await userService.GetByIdAsync(id);
             if (result != null)
