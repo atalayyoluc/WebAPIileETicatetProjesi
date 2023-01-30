@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+<<<<<<< HEAD
 namespace WebAPIileFormUygulaması.Properties {
     
     
@@ -19,6 +20,23 @@ namespace WebAPIileFormUygulaması.Properties {
         
         public static Settings Default {
             get {
+=======
+namespace WebAPIileFormUygulaması.Properties
+{
+
+
+    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
+    {
+
+        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+
+        public static Settings Default
+        {
+            get
+            {
+>>>>>>> parent of 877381d (Windows form uygulaması ile Crud işlemleri yapıldı)
                 return defaultInstance;
             }
         }
